@@ -5,8 +5,8 @@
         title="Bill"
         :icon="dolar"
         :maxNumber="250"
-        :value="billValue"
         @input-change="handleChangeBill"
+        :value="billValue"
       />
 
       <div class="options-container">
@@ -21,14 +21,14 @@
 
       <input-component
         title="Number of People"
-        :value="peopleValue"
         :icon="persona"
         :maxNumber="10"
         @input-change="handleChangePeople"
+        :value="peopleValue"
       />
     </div>
 
-    <total-prices :tip-person="tipPerson" :total="total" />
+    <total-prices :tip-person="tipPerson" :total="total" :onclick="resetValues" />
   </section>
 </template>
 
@@ -42,22 +42,25 @@ const handleSelectedPercentage = (value: number) => {
   selectedPercentage.value = value;
 };
 
+const resetValues = () => {
+  selectedPercentage.value = 0;
+  peopleValue.value = 0;
+  billValue.value = 0;
+};
+
 const handleChangeBill = (value: number) => {
   billValue.value = value;
-  console.log(billValue.value);
 };
 const handleChangePeople = (value: number) => {
   if (value > 0) {
     peopleValue.value = value;
   }
-
-  console.log(peopleValue.value);
 };
 const calculateTip = () => {
   if (billValue.value > 0 && peopleValue.value > 0 && selectedPercentage.value > 0) {
     tipPerson.value = (billValue.value * (selectedPercentage.value / 100)) / peopleValue.value;
     total.value = tipPerson.value + billValue.value;
-    console.log(total.value, tipPerson.value, selectedPercentage.value);
+
     return;
   }
   tipPerson.value = 0;
@@ -79,8 +82,6 @@ const percentages = [
 ];
 
 watch([peopleValue, billValue, selectedPercentage], () => {
-  console.log("ola");
-
   calculateTip();
 });
 

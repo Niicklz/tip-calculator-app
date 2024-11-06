@@ -4,7 +4,7 @@
       <FinalAmount :title="`Tip Amount`" :final-amount="props.tipPerson" />
       <FinalAmount :title="`Total`" :final-amount="props.total" />
     </div>
-    <button class="btn">Reset</button>
+    <button class="btn" @click="()=> props.onClick?.()">Reset</button>
   </div>
 </template>
 
@@ -17,6 +17,9 @@ const props = defineProps({
   total: {
     type: Number,
   },
+  onClick: {
+    type:Function
+  }
 });
 </script>
 
@@ -49,6 +52,10 @@ const props = defineProps({
   font-weight: bold;
   text-transform: uppercase;
   font-size: 18px;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: var(--very-light-grayish-cyan);
 }
 
 @media (min-width: 1024px) {

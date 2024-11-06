@@ -7,7 +7,7 @@
         type="number"
         min="0"
         @input="(e) => validateNumber(e, props.maxNumber)"
-        v-model="numberValue"
+        :value="props.value"
       />
       <img :src="props.icon" alt="icon-img" />
     </div>
@@ -21,8 +21,6 @@ const numberValue = ref(0);
 const emits = defineEmits(["inputChange"]);
 
 function validateNumber(e: any, maxNumber: number) {
-  console.log(props.value);
-
   if (numberValue.value > maxNumber) {
     numberValue.value = maxNumber;
     e.target.value = maxNumber;
