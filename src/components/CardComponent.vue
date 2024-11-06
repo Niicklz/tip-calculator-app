@@ -21,7 +21,7 @@
 
       <input-component
         title="Number of People"
-        :icon="persona"
+        :icon="personaIcon"
         :maxNumber="10"
         @input-change="handleChangePeople"
         :value="peopleValue"
@@ -37,6 +37,8 @@ import { ref, watch } from "vue";
 import InputComponent from "./InputComponent.vue";
 import PercentageComponent from "./PercentageComponent.vue";
 import TotalPrices from "./TotalPrices.vue";
+import personaIcon from "../../public/assets/icon-person.svg"
+import dolar from "../../public/assets/icon-dollar.svg"
 
 const handleSelectedPercentage = (value: number) => {
   selectedPercentage.value = value;
@@ -85,8 +87,7 @@ watch([peopleValue, billValue, selectedPercentage], () => {
   calculateTip();
 });
 
-const dolar = "/public/assets/icon-dollar.svg";
-const persona = "/public/assets/icon-person.svg";
+
 </script>
 
 <style scoped>
