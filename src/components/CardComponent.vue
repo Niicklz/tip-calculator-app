@@ -85,8 +85,8 @@ watch([peopleValue, billValue, selectedPercentage], () => {
   calculateTip();
 });
 
-const dolar = "../../public/icon-dollar.svg";
-const persona = "../../public/icon-person.svg";
+const dolar = "/src/icon-dollar.svg";
+const persona = "/src/icon-person.svg";
 </script>
 
 <style scoped>
