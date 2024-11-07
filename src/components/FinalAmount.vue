@@ -4,14 +4,14 @@
       <h2>{{ props.title }}</h2>
       <span>/ person</span>
     </div>
-    <span class="final-amount">${{ props.finalAmount ? props.finalAmount.toFixed(2) : 0 }}</span>
+    <span class="final-amount">${{ props.finalAmount ? Number(props.finalAmount).toFixed(2) : 0 }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
   finalAmount: {
-    type: Number,
+    type: String,
   },
   title: {
     type: String,

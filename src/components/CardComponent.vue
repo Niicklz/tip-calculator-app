@@ -1,34 +1,28 @@
 <template>
   <section class="card">
     <div class="left-container">
-      <input-component
-        title="Bill"
-        :icon="dolar"
-        :maxNumber="250"
-        @input-change="handleChangeBill"
-        :value="billValue"
-      />
+      <input-component title="Bill" :icon="dolar" :maxNumber="3" v-model="billValue" />
 
       <div class="options-container">
         <percentage-component
           v-for="item in percentages"
           :key="item.id"
-          :percentage="item.percentage"
+          :percentage="item.percentage.toString()"
           :selectedPercentage="selectedPercentage"
           :handle-click="() => handleSelectedPercentage(item.percentage)"
         />
       </div>
 
-      <input-component
-        title="Number of People"
-        :icon="personaIcon"
-        :maxNumber="10"
-        @input-change="handleChangePeople"
-        :value="peopleValue"
-      />
+      <input-component title="Number of People" :icon="personaIcon" :maxNumber="2" v-model="peopleValue" />
     </div>
 
-    <total-prices :tip-person="tipPerson" :total="total" :onclick="resetValues" />
+    <total-prices>
+      <div class="price-card__final-amounts">
+        <FinalAmount :title="`Tip Amount`" :final-amount="tipPerson" />
+        <FinalAmount :title="`Total`" :final-amount="total" />
+      </div>
+      <button class="btn" @click="resetValues">Reset</button>
+    </total-prices>
   </section>
 </template>
 
@@ -37,43 +31,36 @@ import { ref, watch } from "vue";
 import InputComponent from "./InputComponent.vue";
 import PercentageComponent from "./PercentageComponent.vue";
 import TotalPrices from "./TotalPrices.vue";
-import personaIcon from "../../public/assets/icon-person.svg"
-import dolar from "../../public/assets/icon-dollar.svg"
+import FinalAmount from "./FinalAmount.vue";
+import personaIcon from "../../public/assets/icon-person.svg";
+import dolar from "../../public/assets/icon-dollar.svg";
+import { calculateTip } from "../utils/utilities";
 
 const handleSelectedPercentage = (value: number) => {
-  selectedPercentage.value = value;
+  selectedPercentage.value = value.toString();
 };
 
 const resetValues = () => {
-  selectedPercentage.value = 0;
-  peopleValue.value = 0;
-  billValue.value = 0;
+  selectedPercentage.value = "0";
+  peopleValue.value = "0";
+  billValue.value = "0";
 };
 
-const handleChangeBill = (value: number) => {
-  billValue.value = value;
-};
-const handleChangePeople = (value: number) => {
-  if (value > 0) {
-    peopleValue.value = value;
-  }
-};
-const calculateTip = () => {
-  if (billValue.value > 0 && peopleValue.value > 0 && selectedPercentage.value > 0) {
-    tipPerson.value = (billValue.value * (selectedPercentage.value / 100)) / peopleValue.value;
-    total.value = tipPerson.value + billValue.value;
-
-    return;
-  }
-  tipPerson.value = 0;
-  total.value = 0;
+const handleCalculateTip = () => {
+  const { tipPerson: tipPersonCalculated, total: totalCalculated } = calculateTip({
+    billValue: Number(billValue.value),
+    peopleValue: Number(peopleValue.value),
+    selectedPercentage: Number(selectedPercentage.value),
+  });
+  tipPerson.value = tipPersonCalculated;
+  total.value = totalCalculated;
 };
 
-const selectedPercentage = ref(0);
-const peopleValue = ref(0);
-const billValue = ref(0);
-const tipPerson = ref(0);
-const total = ref(0);
+const selectedPercentage = ref("0");
+const peopleValue = ref("0");
+const billValue = ref("0");
+const tipPerson = ref("0");
+const total = ref("0");
 
 const percentages = [
   { id: 1, percentage: 5 },
@@ -83,11 +70,7 @@ const percentages = [
   { id: 5, percentage: 50 },
 ];
 
-watch([peopleValue, billValue, selectedPercentage], () => {
-  calculateTip();
-});
-
-
+watch([peopleValue, billValue, selectedPercentage], handleCalculateTip);
 </script>
 
 <style scoped>
@@ -109,6 +92,27 @@ watch([peopleValue, billValue, selectedPercentage], () => {
   padding: 2rem;
   display: flex;
   flex-direction: column;
+}
+.price-card__final-amounts {
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+}
+
+.btn {
+  background-color: var(--strong-cyan);
+  border: none;
+  padding: 0.5rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  color: var(--very-dark-cyan);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 18px;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: var(--very-light-grayish-cyan);
 }
 
 @media (min-width: 1024px) {

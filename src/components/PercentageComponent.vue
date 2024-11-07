@@ -11,11 +11,11 @@ const props = defineProps({
     required: false,
   },
   percentage: {
-    type:Number,
+    type:String,
     required:true
   },
   selectedPercentage: {
-    type:Number
+    type:String
   }
 });
 
