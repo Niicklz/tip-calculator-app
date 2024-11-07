@@ -1,14 +1,18 @@
 <template>
   <div class="container">
     <div class="title-container">
-      <h2>{{ props.title }}</h2>
+      <h2>{{ title }}</h2>
       <span>/ person</span>
     </div>
-    <span class="final-amount">${{ props.finalAmount ? Number(props.finalAmount).toFixed(2) : 0 }}</span>
+    <span class="final-amount">${{ props.finalAmount ? formatNumber(Number(props.finalAmount), currencyDecimal) : "0" }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
+import { currencyDecimal, formatNumber } from '../utils/utilities';
+
+
+
 const props = defineProps({
   finalAmount: {
     type: String,

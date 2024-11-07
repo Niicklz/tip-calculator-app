@@ -18,8 +18,8 @@
 
     <total-prices>
       <div class="price-card__final-amounts">
-        <FinalAmount :title="`Tip Amount`" :final-amount="tipPerson" />
-        <FinalAmount :title="`Total`" :final-amount="total" />
+        <FinalAmount title="Tip Amount" :final-amount="tipPerson" />
+        <FinalAmount title="Total" :final-amount="total" />
       </div>
       <button class="btn" @click="resetValues">Reset</button>
     </total-prices>
