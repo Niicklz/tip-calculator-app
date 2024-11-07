@@ -5,18 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import FinalAmount from "./FinalAmount.vue";
-const props = defineProps({
-  tipPerson: {
-    type: Number,
-  },
-  total: {
-    type: Number,
-  },
-  onClick: {
-    type:Function
-  }
-});
+
+
 </script>
 
 <style scoped>
